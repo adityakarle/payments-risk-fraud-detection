@@ -124,7 +124,7 @@ pytest tests/ -v
 temporal calculations), the time-based split (rejects unsorted input,
 rejects invalid fractions), and the cost-based threshold optimizer
 (verified against contrived cases where the correct threshold is known
-analytically — e.g. when missing fraud is priced far higher than a false
+analytically : e.g. when missing fraud is priced far higher than a false
 positive, the optimizer must pick a threshold low enough to catch it).
 
 ## Suggested resume bullet points
@@ -147,7 +147,7 @@ positive, the optimizer must pick a threshold low enough to catch it).
   real figures if you have them from a specific business context.
 - If you get access to data with an account/customer ID, add true
   per-customer velocity features (transactions in last 1h/24h,
-  time-since-last-transaction) in `src/features.py` — the module is
+  time-since-last-transaction) in `src/features.py` the module is
   structured so that's a self-contained addition.
 - Add SHAP values for per-transaction explanations (useful for actually
   explaining *why* a given transaction was flagged, not just that it was).
