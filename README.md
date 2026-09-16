@@ -1,6 +1,6 @@
 # Payments Risk & Fraud Detection Platform
 
-A fraud detection pipeline built on real, licensed transaction data —
+A fraud detection pipeline built on real, licensed transaction data 
 feature engineering, imbalance-aware model training with a proper
 time-based validation split, and a cost-based threshold optimizer that
 answers the actual business question a payments-risk team asks
@@ -11,7 +11,7 @@ answers the actual business question a payments-risk team asks
 Built specifically to close a gap: solid data science fundamentals
 (Python, SQL, XGBoost, Random Forest, statistical analysis) with zero
 payments/fraud-domain application on the resume. This project applies
-that exact toolkit to the exact domain — fraud/risk classification on
+that exact toolkit to the exact domain fraud/risk classification on
 real transaction data — rather than adding another generic ML demo.
 
 ## The data
@@ -36,33 +36,33 @@ dataset has no account or customer identifier — every feature except
 tell which transactions belong to the same card. That rules out true
 per-customer velocity features (the first thing a real payments-risk
 team would build). What this project builds instead are
-**population-level temporal/amount-context features** — see
+**population-level temporal/amount-context features** see
 "Feature engineering" below for what that means and why it's a real,
 if weaker, substitute.
 
 ## What it does
 
-1. **Feature engineering** (`src/features.py`) — adds hour-of-day /
+1. **Feature engineering** (`src/features.py`) adds hour-of-day /
    night-time flags, log-transformed amount, and rolling transaction
    density + amount-context features computed over the whole stream
    (not per-account, per the limitation above).
-2. **Time-based train/test split** (`src/train.py`) — sorts by `Time`
+2. **Time-based train/test split** (`src/train.py`) sorts by `Time`
    and splits chronologically rather than randomly shuffling, because a
    random split lets "future" transactions leak into training via the
    rolling-window features. Real fraud models only ever have the past
    to predict the future; the evaluation should reflect that.
-3. **Two models, imbalance handled at the algorithm level** — XGBoost
+3. **Two models, imbalance handled at the algorithm level** XGBoost
    (`scale_pos_weight`) and Random Forest (`class_weight="balanced"`),
    computed from the training set only, never resampling before the
    split (a common and subtle leakage bug).
-4. **Cost-based threshold optimization** (`src/evaluate.py`) — instead
+4. **Cost-based threshold optimization** (`src/evaluate.py`) instead
    of reporting F1 at the default 0.5 cutoff, sweeps thresholds and
    picks the one minimizing `(missed fraud × assumed loss) + (false
    positives × assumed review cost)`. Both costs are explicit,
    named arguments — never hardcoded silently — because picking an
    operating threshold without stating the cost assumptions behind it
    is exactly the kind of unexamined number a risk team should push back on.
-5. **Streamlit dashboard** (`app.py`) — dataset overview, PR/ROC curves
+5. **Streamlit dashboard** (`app.py`) dataset overview, PR/ROC curves
    and confusion matrix, an interactive cost-threshold explorer, and a
    transaction scorer.
 
@@ -73,20 +73,20 @@ if weaker, substitute.
 | XGBoost | 0.726 | 0.936 | 0.654 | 0.708 |
 | Random Forest | 0.787 | 0.923 | 1.000 | 0.625 |
 
-PR-AUC is the headline metric here, not accuracy — with 0.18% fraud
+PR-AUC is the headline metric here, not accuracy with 0.18% fraud
 prevalence, a model that predicts "never fraud" scores ~99.8% accuracy
 while catching zero fraud. These PR-AUC figures are in line with
 published benchmarks on this dataset.
 
 At the assumed cost ratio ($500 per missed fraud vs. $5 per manual
-review — both adjustable in the app), the cost-optimal threshold drops
+review both adjustable in the app), the cost-optimal threshold drops
 to **0.025** for XGBoost and **0.193** for Random Forest — far below the
 default 0.5 — because missing fraud is priced far more expensive than a
 false-positive review. This is the actual output a risk team would want:
 not "the model is 93% accurate," but "given these costs, operate here."
 
 **On the engineered features specifically:** they rank low in feature
-importance (10th–34th out of 34 features, both models) — the
+importance (10th–34th out of 34 features, both models) the
 anonymized `V1`–`V28` PCA components already carry most of the
 predictive signal, since PCA was applied specifically to preserve
 variance. This is worth stating plainly rather than overselling: the
