@@ -12,7 +12,7 @@ Built specifically to close a gap: solid data science fundamentals
 (Python, SQL, XGBoost, Random Forest, statistical analysis) with zero
 payments/fraud-domain application on the resume. This project applies
 that exact toolkit to the exact domain fraud/risk classification on
-real transaction data — rather than adding another generic ML demo.
+real transaction data rather than adding another generic ML demo.
 
 ## The data
 
