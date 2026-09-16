@@ -59,7 +59,7 @@ if weaker, substitute.
    of reporting F1 at the default 0.5 cutoff, sweeps thresholds and
    picks the one minimizing `(missed fraud × assumed loss) + (false
    positives × assumed review cost)`. Both costs are explicit,
-   named arguments — never hardcoded silently — because picking an
+   named arguments never hardcoded silently because picking an
    operating threshold without stating the cost assumptions behind it
    is exactly the kind of unexamined number a risk team should push back on.
 5. **Streamlit dashboard** (`app.py`) dataset overview, PR/ROC curves
